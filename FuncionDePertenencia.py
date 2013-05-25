@@ -1,46 +1,139 @@
 # -*- coding: utf-8 -*-
 import math
-"""
-    -Crear cada clase por cada tipo geometrico
-    -Inicializar la figura geometrica con sus cordenadas
-    -Calcular el área
-"""
-def trapezoidal(x,a,b,c,d):
-    if x<=a:
-        vp = 0
-    if (x>=a) and (x<=b):
-        vp = (x-a)/(b-a)
-    if (x>=b) and (x<=c):
-        vp = 1
-    if (x>=c) and (x<=d):
-        vp = (d-x)/(d-c)
-    if x>=d:
-        vp = 0
-
-def triangular(x,a,b,c):
-    if x<=a:
-        vp = 0
-    if (x>=a) and (x<=b):
-        vp = (x-a)/(b-a)
-    if (x>=b) and (x<=c):
-        vp = (c-x)/(c-b)
-    if x>=c:
-        vp = 0
-
-def singleton(x,a):
-    if x==a:
-        vp = 1
-    else:
-        vp = 0
-
-def gausiana(x,c,y):
-    vp = math.exp(-1*(((x-c)/y)**2))
-    print vp
 
 
-def campana(x,a,b,c):
-    vp = 1/(1+math.fabs((x-c)/a)**(2*b))
+class FuncionPertenencia:
 
-def sigmoide(x,a,b,c):
-    vp = 1/(1+math.exp(-a*(x-c)))
-    print vp
+    def __init__(self,valor,tipo,coordenadas):
+        self.valor = valor
+        self.tipo = tipo
+        self.coordenadas = coordenadas
+
+    def determinarFuncion(self):
+        if self.tipo == "Trapezoidal":
+            return Trapezoidal(self.valor,self.coordenadas)
+
+        if self.tipo == "Triangular":
+            return Triangular(self.valor,self.coordenadas)
+
+        if self.tipo == "Singleton":
+            return Singleton(self.valor,self.coordenadas)
+
+        if self.tipo == "Gausiana":
+            return Gausiana(self.valor,self.coordenadas)
+
+        if self.tipo == "Campana":
+            return Campana(self.valor,self.coordenadas)
+
+        if self.tipo == "Sigmoide":
+            return Sigmoide(self.valor,self.coordenadas)
+
+
+class Trapezoidal:
+
+    def __init__(self,valor,coordenadas):
+        self.valor = valor
+        self.a,self.b,self.c,self.d = coordenadas
+        self.vp = 0
+
+    def calcular(self):
+        if self.valor < self.a:
+            self.vp = 0
+            return self.vp
+
+        if self.a <= self.valor <= self.b:
+            self.vp = (self.valor - self.a) / (self.b - self.a)
+            return self.vp
+
+        if self.b <= self.valor <= self.c:
+            self.vp = 1
+            return self.vp
+
+        if self.c <= self.valor <= self.d:
+            self.vp = (self.d - self.valor) / (self.d - self.c)
+            return self.vp
+
+        if self.valor > self.d:
+            self.vp = 0
+            return self.vp
+
+
+class Triangular:
+
+    def __init__(self,valor,coordenadas):
+        self.valor = valor
+        self.a,self.b,self.c = coordenadas
+        self.vp = 0
+
+    def calcular(self):
+        if self.valor < self.a:
+            self.vp = 0
+            return self.vp
+
+        if self.a <= self.valor <= self.b:
+            self.vp = (self.valor - self.a) / (self.b - self.a)
+            return self.vp
+
+        if self.b <= self.valor <= self.c:
+            self.vp = (self.c - self.valor) / (self.c - self.b)
+            return self.vp
+
+        if self.valor > self.c:
+            self.vp = 0
+            return self.vp
+
+
+class Singleton:
+
+    def __init__(self,valor,coordenadas):
+        self.valor = valor
+        self.a = coordenadas
+        self.vp = 0
+
+    def calcular(self):
+
+        if self.valor == self.a:
+            self.vp = 1
+            return self.vp
+
+        else:
+            self.valor = 0
+            return self.vp
+
+
+class Gausiana:
+
+    def __init__(self,valor,coordenadas):
+        self.valor = valor
+        self.a, self.b = coordenadas
+        self.vp = 0
+
+    def calcular(self):
+        self.vp = math.exp((-1/2)*(((self.valor-self.a)/self.b)**2))
+        return self.vp
+
+
+class Campana:
+
+    def __init__(self,valor,coordenadas):
+        self.valor = valor
+        self.a,self.b,self.c = coordenadas
+        self.vp = 0
+
+    def calcular(self):
+        self.vp = 1 / (1 + (abs((self.valor - self.c) / self.a)**(2 * self.b)))
+        return self.vp
+
+
+class Sigmoide:
+
+    def __init__(self,valor,coordenadas):
+        self.valor = valor
+        self.a,self.b,self.c = coordenadas
+        self.vp = 0
+
+    def calcular(self):
+        self.vp = 1 / (1 + math.exp(-self.a * (self.valor - self.c)))
+        print self.vp
+
+
