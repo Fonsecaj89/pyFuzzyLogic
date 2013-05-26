@@ -37,6 +37,12 @@ class Conjunto:
     def obtenerFuncionPertenencia(self,i):
         return self.vl[i]
 
+    def obtenerFuncionPertenenciaPorValor(self,valor):
+        for vl in self.vl:
+            et = vl.keys()
+            if valor in vl[et[0]][1]:
+                if min(vl[et[0]][1]) == valor:
+                    return et[0]
 
 
 class Fuzificacion:
