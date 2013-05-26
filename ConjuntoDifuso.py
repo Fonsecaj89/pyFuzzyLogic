@@ -14,6 +14,7 @@ class Conjunto:
         self.valIni = 0
         self.valFinal = 0
 
+
     def universo(self, intervalo):
         self.valIni, self.valFinal = intervalo
 
@@ -43,20 +44,30 @@ class Fuzificacion:
     def __init__(self,entrada,conjunto):
         self.entrada = entrada
         self.conjunto = conjunto
+        self.etiqueta = ""
+        self.valorDifuso = 0
 
 
     """Calcular el grado de pertenencia"""
     def calcularGradoPertenencia(self):
         gdp = []
+
         for i, v in enumerate(self.conjunto.obteneVariablesLinguisticas()):
             for valLing, funPer in self.conjunto.obteneVariablesLinguisticas()[i].iteritems():
                 if (self.entrada >= min(funPer[1])) and (self.entrada <= max(funPer[1])):
                     pcgp = fp.FuncionPertenencia(self.entrada,funPer[0],funPer[1]).determinarFuncion()
-                    gdp.append({self.conjunto.obteneVariablesLinguisticas()[i].keys()[0]:pcgp.calcular()})
+                    gdp.append({valLing:pcgp.calcular()})
                 else:
                     pass
-        var = min(gdp).keys()[0]
-        return var, min(gdp).get(var)
+
+        self.etiqueta = min(gdp).keys()[0]
+        self.valorDifuso = min(gdp).get(self.etiqueta)
+
+    def obtenerEtiquetaResultado(self):
+        return self.etiqueta
+
+    def obtenerValorDifuso(self):
+        return self.valorDifuso
 
 
 
