@@ -129,11 +129,11 @@ class Sigmoide:
 
     def __init__(self,valor,coordenadas):
         self.valor = valor
-        self.a,self.b,self.c = coordenadas
+        self.a,self.b = coordenadas
         self.vp = 0
 
     def calcular(self):
-        self.vp = 1 / (1 + math.exp(-self.a * (self.valor - self.c)))
+        self.vp = 1 / (1 + math.exp(-self.a * (self.valor - self.b)))
         print self.vp
 
 
