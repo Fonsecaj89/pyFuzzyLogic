@@ -50,8 +50,10 @@ class Fuzificacion:
     def __init__(self,entrada,conjunto):
         self.entrada = entrada
         self.conjunto = conjunto
-        self.etiqueta = ""
-        self.valorDifuso = 0
+        self.etiquetaMin = ""
+        self.valorDifusoMin = 0
+        self.etiquetaMax = ""
+        self.valorDifusoMax = 0
 
 
     """Calcular el grado de pertenencia"""
@@ -60,20 +62,33 @@ class Fuzificacion:
 
         for i, v in enumerate(self.conjunto.obteneVariablesLinguisticas()):
             for valLing, funPer in self.conjunto.obteneVariablesLinguisticas()[i].iteritems():
+
                 if (self.entrada >= min(funPer[1])) and (self.entrada <= max(funPer[1])):
                     pcgp = fp.FuncionPertenencia(self.entrada,funPer[0],funPer[1]).determinarFuncion()
                     gdp.append({valLing:pcgp.calcular()})
                 else:
                     pass
-
-        self.etiqueta = min(gdp).keys()[0]
-        self.valorDifuso = min(gdp).get(self.etiqueta)
+        if min(gdp).keys()[0] == max(gdp).keys()[0]:
+            if min(gdp).get(self.etiquetaMin) == max(gdp).get(self.etiquetaMax):
+                self.etiquetaMin = min(gdp).keys()[0]
+                self.valorDifusoMin = min(gdp).get(self.etiquetaMin)
+        else:
+            self.etiquetaMin = min(gdp).keys()[0]
+            self.etiquetaMax = max(gdp).keys()[0]
+            self.valorDifusoMin = min(gdp).get(self.etiquetaMin)
+            self.valorDifusoMax = max(gdp).get(self.etiquetaMax)
 
     def obtenerEtiquetaResultado(self):
-        return self.etiqueta
+        if self.etiquetaMax == "":
+            return self.etiquetaMin
+        else:
+            return self.etiquetaMin, self.etiquetaMax
 
     def obtenerValorDifuso(self):
-        return self.valorDifuso
+        if self.valorDifusoMax == 0:
+            return self.valorDifusoMin
+        else:
+            return self.valorDifusoMin, self.valorDifusoMax
 
 
 

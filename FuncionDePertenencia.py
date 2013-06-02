@@ -5,7 +5,7 @@ import math
 class FuncionPertenencia:
 
     def __init__(self,valor,tipo,coordenadas):
-        self.valor = valor
+        self.valor = float(valor)
         self.tipo = tipo
         self.coordenadas = coordenadas
 
@@ -54,6 +54,48 @@ class Trapezoidal:
             return self.vp
 
         if self.valor > self.d:
+            self.vp = 0
+            return self.vp
+
+
+class Trapezoidal_Derecho:
+
+    def __init__(self,valor,coordenadas):
+        self.valor = valor
+        self.a,self.b = coordenadas
+        self.vp = 0
+
+    def calcular(self):
+        if self.valor < self.a:
+            self.vp = 0
+            return self.vp
+
+        if self.a <= self.valor <= self.b:
+            self.vp = (self.valor - self.a) / (self.b - self.a)
+            return self.vp
+
+        if self.valor > self.b:
+            self.vp = 1
+            return self.vp
+
+
+class Trapezoidal_Izquierdo:
+
+    def __init__(self,valor,coordenadas):
+        self.valor = valor
+        self.a,self.b = coordenadas
+        self.vp = 0
+
+    def calcular(self):
+        if self.valor < self.a:
+            self.vp = 1
+            return self.vp
+
+        if self.a <= self.valor <= self.b:
+            self.vp = (self.b-self.valor) / (self.b - self.a)
+            return self.vp
+
+        if self.valor > self.b:
             self.vp = 0
             return self.vp
 
@@ -134,6 +176,5 @@ class Sigmoide:
 
     def calcular(self):
         self.vp = 1 / (1 + math.exp(-self.a * (self.valor - self.b)))
-        print self.vp
-
+        return self.vp
 

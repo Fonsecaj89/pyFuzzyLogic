@@ -59,7 +59,6 @@ class Inferencia:
         return self.actuaciones
 
     def motorDifuso(self,Conjunto):
-        """Corregir!!!"""
         self.conjuntoSalida = Conjunto
         auxa = False
         auxo = False
@@ -128,32 +127,62 @@ class Inferencia:
             if resultado[0] == []:
                 pass
             else:
-                """Comparamos las condiciones declaradas en las reglas con sus grados
-                   de pertenencia para escojer el valor minimo y truncar el triangulo al
-                   valor obtenido"""
-                conjuntominimo, varlingmin, altura = min(resultado[0])
-                conjsalida, valSalida = resultado[1][0]
-                print conjuntominimo, varlingmin, altura, resultado[1][0]
+                if len(resultado[0]) > 1:
+                    """Comparamos las condiciones declaradas en las reglas con sus grados
+                       #de pertenencia para procesar el valor minimo y el valor maximo para
+                       #luego truncar los triangulos  de los valores obtenidos"""
 
-                """Comparamos las instancias de ConjuntoDifuso para poder determinar con
-                   cuales variables linguisticas y de cual instancia se va a trabajar"""
-                for ins in self.cs.__class__.instances:
-                    if ins.nombre == conjsalida:
-                        for i, insvl in enumerate(ins.vl):
-                            if insvl.keys()[0] == valSalida:
-                                #Obtenemos las coordenadas de la funcion de pertenencia del valor instanciado
-                                a,b,c = insvl[valSalida][1]
+                    x,y = resultado[0]
 
+                    conjuntox, varlingx, alturax = x
+                    conjuntoy, varlingy, alturay = y
+                    valmin = min(alturax,alturay)
 
-                                """Ahora truncamos el triangulo al trapecio que desfusificaremos, la altura del
-                                   trapecio se la obtenida por cada regla aplicada al conjunto difuso"""
+                    if valmin in x:
+                        conjunto, varling, altura = x
+                    if valmin in y:
+                        conjunto, varling, altura = y
 
-                                #Calculamos la x en donde sera la altura maxima del lado izquierdo
-                                x = altura * (b-a) + a
+                    conjsalida, valSalida = resultado[1][0]
 
-                                #Calculamos la x en donde sera la altura maxima del lado derecho
-                                x1 = c - altura * (c-b)
+                    """Comparamos las instancias de ConjuntoDifuso para poder determinar con
+                       #cuales variables linguisticas y de cual instancia se va a trabajar"""
+                    for ins in self.cs.__class__.instances:
+                        if ins.nombre == conjsalida:
+                            for i, insvl in enumerate(ins.vl):
+                                if insvl.keys()[0] == valSalida:
+                                    if len(insvl[valSalida][1]) == 2:
+                                        for fpi in self.cs.__class__.instances:
+                                            if fpi.nombre == conjunto:
+                                                if fpi.obtenerFuncionPertenenciaPorValor(varling) == "Trapezoidal_Derecho":
+                                                    #Obtenemos las coordenadas de la funcion de pertenencia del valor instanciado
+                                                    a,b = insvl[valSalida][1]
+                                                    #Calculamos la x en donde sera la altura maxima del lado derecho
+                                                    x = altura * (b-a) + a
+                                                    #Por ultimo, Guardamos las coordenadas del trapecio creado
+                                                    self.trapecio.append((a,x,b,b,altura))
 
+                                                if fpi.obtenerFuncionPertenenciaPorValor(varling) == "Trapezoidal_Izquierdo":
+                                                    #Obtenemos las coordenadas de la funcion de pertenencia del valor instanciado
+                                                    a,b = insvl[valSalida][1]
+                                                    #Calculamos la x en donde sera la altura maxima del lado derecho
+                                                    x = b - altura * (b-a)
+                                                    #Por ultimo, Guardamos las coordenadas del trapecio creado
+                                                    self.trapecio.append((a,a,x,b,altura))
 
-                                #Por ultimo, Guardamos las coordenadas del trapecio creado
-                                self.trapecio.append((a,x,x1,c,altura))
+                                    else:
+                                        #Obtenemos las coordenadas de la funcion de pertenencia del valor instanciado
+                                        a,b,c = insvl[valSalida][1]
+
+                                        """Ahora truncamos el triangulo en un trapecio con el valor minimo que
+                                           #desfusificaremos, la altura del trapecio sera la obtenida por cada
+                                           #regla aplicada al conjunto difuso"""
+
+                                        #Calculamos la x en donde sera la altura maxima del lado izquierdo
+                                        x = altura * (b-a) + a
+
+                                        #Calculamos la x en donde sera la altura maxima del lado derecho
+                                        x1 = c - altura * (c-b)
+
+                                        #Por ultimo, Guardamos las coordenadas del trapecio creado
+                                        self.trapecio.append((a,x,x1,c,altura))
