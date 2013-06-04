@@ -97,7 +97,7 @@ def procesar(instanciaReglas,instanciaMotor,conjuntoSalida):
     resultado = instanciaMotor.motorDifuso(conjuntoSalida)
     valdes = Desfusificador(resultado)
     resdis = valdes.obtenerValorDesfusificado()
-    etiquetaResultado = conjuntoSalida.obtenerFuncionPertenenciaPorValor(resdis)
+    etiquetaResultado = valdes.obtenerEtiquetaResultado()
     return etiquetaResultado, resdis
 
 

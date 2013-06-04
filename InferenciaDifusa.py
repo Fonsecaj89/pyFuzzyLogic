@@ -118,6 +118,7 @@ class Inferencia:
             actu = []
 
         self.truncarSalida(self.conjuntoSalida)
+        print self.trapecio
         return self.trapecio
 
     def truncarSalida(self,Conjunto):
@@ -129,8 +130,8 @@ class Inferencia:
             else:
                 if len(resultado[0]) > 1:
                     """Comparamos las condiciones declaradas en las reglas con sus grados
-                       #de pertenencia para procesar el valor minimo y el valor maximo para
-                       #luego truncar los triangulos  de los valores obtenidos"""
+                       de pertenencia para procesar el valor minimo y el valor maximo para
+                       luego truncar los triangulos  de los valores obtenidos"""
 
                     x,y = resultado[0]
 
@@ -144,9 +145,10 @@ class Inferencia:
                         conjunto, varling, altura = y
 
                     conjsalida, valSalida = resultado[1][0]
+                    print conjsalida, valSalida
 
                     """Comparamos las instancias de ConjuntoDifuso para poder determinar con
-                       #cuales variables linguisticas y de cual instancia se va a trabajar"""
+                       cuales variables linguisticas y de cual instancia se va a trabajar"""
                     for ins in self.cs.__class__.instances:
                         if ins.nombre == conjsalida:
                             for i, insvl in enumerate(ins.vl):
@@ -154,13 +156,14 @@ class Inferencia:
                                     if len(insvl[valSalida][1]) == 2:
                                         for fpi in self.cs.__class__.instances:
                                             if fpi.nombre == conjunto:
+                                                print fpi.obtenerFuncionPertenenciaPorValor(varling)
                                                 if fpi.obtenerFuncionPertenenciaPorValor(varling) == "Trapezoidal_Derecho":
                                                     #Obtenemos las coordenadas de la funcion de pertenencia del valor instanciado
                                                     a,b = insvl[valSalida][1]
                                                     #Calculamos la x en donde sera la altura maxima del lado derecho
                                                     x = altura * (b-a) + a
                                                     #Por ultimo, Guardamos las coordenadas del trapecio creado
-                                                    self.trapecio.append((a,x,b,b,altura))
+                                                    self.trapecio.append((a,x,b,b,altura,insvl.keys()[0]))
 
                                                 if fpi.obtenerFuncionPertenenciaPorValor(varling) == "Trapezoidal_Izquierdo":
                                                     #Obtenemos las coordenadas de la funcion de pertenencia del valor instanciado
@@ -168,9 +171,10 @@ class Inferencia:
                                                     #Calculamos la x en donde sera la altura maxima del lado derecho
                                                     x = b - altura * (b-a)
                                                     #Por ultimo, Guardamos las coordenadas del trapecio creado
-                                                    self.trapecio.append((a,a,x,b,altura))
+                                                    self.trapecio.append((a,a,x,b,altura,insvl.keys()[0]))
 
                                     else:
+
                                         #Obtenemos las coordenadas de la funcion de pertenencia del valor instanciado
                                         a,b,c = insvl[valSalida][1]
 
@@ -185,4 +189,4 @@ class Inferencia:
                                         x1 = c - altura * (c-b)
 
                                         #Por ultimo, Guardamos las coordenadas del trapecio creado
-                                        self.trapecio.append((a,x,x1,c,altura))
+                                        self.trapecio.append((a,x,x1,c,altura,insvl.keys()[0]))
