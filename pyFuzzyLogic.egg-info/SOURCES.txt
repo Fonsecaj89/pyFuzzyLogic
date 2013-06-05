@@ -1,0 +1,5 @@
+setup.py
+pyFuzzyLogic.egg-info/PKG-INFO
+pyFuzzyLogic.egg-info/SOURCES.txt
+pyFuzzyLogic.egg-info/dependency_links.txt
+pyFuzzyLogic.egg-info/top_level.txt

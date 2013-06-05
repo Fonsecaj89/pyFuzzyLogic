@@ -1,0 +1,13 @@
+En su primera version solo incluye:
+    -Verificacion de todas las condiciones "AND"
+    -Solo evalua las actuaciones simples
+    -Resultados truncados
+    -Desfusificacion con Mandani
+
+Falta:
+    -Verificacion de todas las condiciones "OR"
+    -Verificacion de todas las condiciones "NOT"
+    -Evaluar actuaciones "AND"
+    -Evaluar actuaciones "OR"
+    -Evaluar actuaciones "NOT"
+    -Escalar la funcion de salida
