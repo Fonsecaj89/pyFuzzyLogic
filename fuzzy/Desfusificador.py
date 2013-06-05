@@ -21,7 +21,7 @@ class Desfusificador:
 
         self.etiqueta = ""
 
-            for trap in self.trapecio:
+        for trap in self.trapecio:
             a,b,c,d,altura,etiqueta = trap
             if a==b:
                 puntoMedio = (d-b)/2
