@@ -6,5 +6,6 @@ setup(name='pyFuzzyLogic',
   description='Python Fuzzy Logic',
   author='Javier Fonseca',
   author_email='vjfs18@gmail.com',
-  url='https://github.com/Taberu/pyFuzzyLogic'
+  url='https://github.com/Taberu/pyFuzzyLogic',
+  packages=['fuzzy']
  )
